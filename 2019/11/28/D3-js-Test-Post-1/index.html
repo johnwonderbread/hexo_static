@@ -3,13 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | MapChange</title>
+  <title>D3.js Test Post | MapChange</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="MapChange">
-<meta property="og:url" content="167.71.247.127&#x2F;archives&#x2F;">
+  <meta name="description" content="Markdown goes here.Testing this feature.      .chart rect {   fill: steelblue; }  .chart text {   fill: white;   font: 10px sans-serif;   text-anchor: end; }       var data &#x3D; [   {name: &quot;Locke&quot;,    va">
+<meta name="keywords" content="Test,D3.js,Data Viz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="D3.js Test Post">
+<meta property="og:url" content="167.71.247.127&#x2F;2019&#x2F;11&#x2F;28&#x2F;D3-js-Test-Post-1&#x2F;">
 <meta property="og:site_name" content="MapChange">
+<meta property="og:description" content="Markdown goes here.Testing this feature.      .chart rect {   fill: steelblue; }  .chart text {   fill: white;   font: 10px sans-serif;   text-anchor: end; }       var data &#x3D; [   {name: &quot;Locke&quot;,    va">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-28T17:04:22.477Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="MapChange" type="application/atom+xml">
@@ -49,7 +53,7 @@
           <li><a class=""
                  href="/index.html">Home</a></li>
         
-          <li><a class="active"
+          <li><a class=""
                  href="/archives/">Archives</a></li>
         
       </ul>
@@ -75,60 +79,142 @@
 
     <div class="row">
         <div class="col-sm-8 blog-main">
-          
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
+          <article id="post-D3-js-Test-Post-1" class="article article-type-post" itemscope itemprop="blogPost">
+
+  <header class="article-header">
     
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/28/D3-js-Test-Post-1/">D3.js Test Post</a>
+    <h1 class="article-title" itemprop="name">
+      D3.js Test Post
     </h1>
   
 
 
+  </header>
+
+  <div class="article-meta">
     <div class="article-datetime">
-  <a href="/2019/11/28/D3-js-Test-Post-1/" class="archive-article-date"><time datetime="2019-11-28T16:59:00.000Z" itemprop="datePublished">November 28th</time></a>
+  <a href="/2019/11/28/D3-js-Test-Post-1/" class="article-date"><time datetime="2019-11-28T16:59:00.000Z" itemprop="datePublished">2019-11-28</time></a>
 </div>
 
-  </header>
+    
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Hexo/">Hexo</a>
+  </div>
+
+
+  </div>
+  <div class="article-inner">
+
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Markdown-goes-here"><a href="#Markdown-goes-here" class="headerlink" title="Markdown goes here."></a>Markdown goes here.</h2><p>Testing this feature. </p>
+
+
+<style>
+
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+</style>
+<svg class="chart"></svg>
+<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script>
+
+var data = [
+  {name: "Locke",    value:  4},
+  {name: "Reyes",    value:  8},
+  {name: "Ford",     value: 15},
+  {name: "Jarrah",   value: 16},
+  {name: "Shephard", value: 23},
+  {name: "Kwon",     value: 42}
+];
+
+var width = 420,
+    barHeight = 20;
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var chart = d3.select(".chart")
+    .attr("width", width);
+
+d3.tsv("data.tsv", type, function(error, data) {
+  x.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+  chart.attr("height", barHeight * data.length);
+
+  var bar = chart.selectAll("g")
+      .data(data)
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+  bar.append("rect")
+      .attr("width", function(d) { return x(d.value); })
+      .attr("height", barHeight - 1);
+
+  bar.append("text")
+      .attr("x", function(d) { return x(d.value) - 3; })
+      .attr("y", barHeight / 2)
+      .attr("dy", ".35em")
+      .text(function(d) { return d.value; });
+});
+
+function type(d) {
+  d.value = +d.value; // coerce to number
+  return d;
+}
+
+</script>
+
+
+
+<p>Did it work?</p>
+
+      
+    </div>
+
+    
+      
+
+    
+
+    <footer class="article-footer">
+      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3iyx0ls00000rrw4je7anu0" class="article-share-link">
+        <i class="fa fa-share"></i> Share
+      </a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/D3-js/" rel="tag">D3.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Viz/" rel="tag">Data Viz</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Test/" rel="tag">Test</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+    
+<ul id="article-nav" class="nav nav-pills nav-justified">
+  
+  <li role="presentation">
+    <a href="/2019/11/27/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <i class="fa fa-chevron-left pull-left"></i>
+      <span class="article-nav-link-title">Hello World</span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+
+  
 </article>
-
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <header class="archive-article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/27/hello-world/">Hello World</a>
-    </h1>
-  
-
-
-    <div class="article-datetime">
-  <a href="/2019/11/27/hello-world/" class="archive-article-date"><time datetime="2019-11-27T22:39:04.203Z" itemprop="datePublished">November 27th</time></a>
-</div>
-
-  </header>
-</article>
-
-  
-  
-    </div></section>
-  
 
 
 
