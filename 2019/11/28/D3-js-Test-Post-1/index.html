@@ -5,15 +5,15 @@
   
   <title>D3.js Test Post | MapChange</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Markdown goes here.Testing this feature.      	 		 		D3: A simple bar chart 		 		 			&#x2F;* No style rules here yet *&#x2F;		 		 	 	 		  			&#x2F;&#x2F;Width and height 			var w &#x3D; 500; 			var h &#x3D; 100; 			var barPadding">
+  <meta name="description" content="Markdown goes here.Testing this feature.      	 		 		D3: A simple bar chart 		 		 			&#x2F;* No style rules here yet *&#x2F;		 		 	 	 	   		 			&#x2F;&#x2F;Width and height 			var w &#x3D; 500; 			var h &#x3D; 100; 			var barPaddi">
 <meta name="keywords" content="Test,D3.js,Data Viz">
 <meta property="og:type" content="article">
 <meta property="og:title" content="D3.js Test Post">
 <meta property="og:url" content="167.71.247.127&#x2F;2019&#x2F;11&#x2F;28&#x2F;D3-js-Test-Post-1&#x2F;">
 <meta property="og:site_name" content="MapChange">
-<meta property="og:description" content="Markdown goes here.Testing this feature.      	 		 		D3: A simple bar chart 		 		 			&#x2F;* No style rules here yet *&#x2F;		 		 	 	 		  			&#x2F;&#x2F;Width and height 			var w &#x3D; 500; 			var h &#x3D; 100; 			var barPadding">
+<meta property="og:description" content="Markdown goes here.Testing this feature.      	 		 		D3: A simple bar chart 		 		 			&#x2F;* No style rules here yet *&#x2F;		 		 	 	 	   		 			&#x2F;&#x2F;Width and height 			var w &#x3D; 500; 			var h &#x3D; 100; 			var barPaddi">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-28T17:12:15.275Z">
+<meta property="og:updated_time" content="2019-11-28T17:15:06.720Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="MapChange" type="application/atom+xml">
@@ -123,22 +123,19 @@
 		</style>
 	</head>
 	<body>
+	<div id="d3js-example-content"></div>  
 		<script type="text/javascript">
-
 			//Width and height
 			var w = 500;
 			var h = 100;
 			var barPadding = 1;
-			
 			var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-			
+						11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
 			//Create SVG element
-			var svg = d3.select("body")
+			var svg = d3.select("d3js-example-content")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
-
 			svg.selectAll("rect")
 			   .data(dataset)
 			   .enter()
@@ -156,7 +153,6 @@
 			   .attr("fill", function(d) {
 					return "rgb(0, 0, " + Math.round(d * 10) + ")";
 			   });
-
 			svg.selectAll("text")
 			   .data(dataset)
 			   .enter()
@@ -174,9 +170,6 @@
 			   .attr("font-family", "sans-serif")
 			   .attr("font-size", "11px")
 			   .attr("fill", "white");
-
-
-			
 		</script>
 	</body>
 </html>
@@ -194,7 +187,7 @@
     
 
     <footer class="article-footer">
-      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3iz7fui0000dvrwa4x22u6s" class="article-share-link">
+      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3izaulq0000gfrw1ytthbj5" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
