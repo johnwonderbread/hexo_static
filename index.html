@@ -77,206 +77,6 @@
         <div class="col-sm-8 blog-main">
           
   
-    <article id="post-D3-js-Test-Post-1" class="article article-type-post" itemscope itemprop="blogPost">
-
-  <header class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/28/D3-js-Test-Post-1/">D3.js Test Post</a>
-    </h1>
-  
-
-
-  </header>
-
-  <div class="article-meta">
-    <div class="article-datetime">
-  <a href="/2019/11/28/D3-js-Test-Post-1/" class="article-date"><time datetime="2019-11-28T16:59:00.000Z" itemprop="datePublished">2019-11-28</time></a>
-</div>
-
-    
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Hexo/">Hexo</a>
-  </div>
-
-
-  </div>
-  <div class="article-inner">
-
-    <div class="article-entry" itemprop="articleBody">
-      
-        <html lang="en">
-<head>
-	<script src="https://d3js.org/d3.v4.min.js"></script> 
-	<style type="text/css">
-
-	.line {
-		fill: none;
-		stroke: teal;
-		stroke-width: 0.5;
-	}
-
-	.area {
-		fill: teal;
-		stroke: none;  
-	}
-
-	.safeLevel {
-		stroke: red;
-		stroke-dasharray: 2, 3;
-	}
-	
-	.danger {
-		fill: red;
-	}
-
-	.label {
-		fill: red; 
-		font-family: Helvetica, sans-serif;
-		font-size: 12px;
-	}
-	</style>
-</head>
-<body>
-<p>Testing this feature. </p>
-	<div id="d3js-example-content"></div>  
-		<script>
-			//Width and height
-			var w = 800;
-			var h = 300;
-			var padding = 40;
-			
-            var dataset, xScale, yScale, xAxis, yAxis, line;  //Empty, for now
-            
-            var formatTime = d3.timeFormat("%Y%");
-
-			//Function for converting CSV values from strings to Dates and numbers
-            var rowConverter = function(d) { 
-                return{
-                    //Make a new date object for each year + month 
-                    date: new Date(d.year,(+d.month -1)),
-                    //Convert from string to float
-                    average: parseFloat(d.average)
-                };
-            }
-
-			//Load in data --- why do we never leave the d3.csv command to create our visualization?
-            d3.csv("https://mapchange.com/2019/11/28/co2_mm_mlo.csv", rowConverter, function(data){
-                var dataset = data; 
-                //Print data to console as table, for verification 
-                console.table(dataset, ["date", "average"]);
-                
-                //Create scale functions
-                xScale = d3.scaleTime()
-                    .domain([
-                        d3.min(dataset, function(d){return d.date;}),
-                        d3.max(dataset, function(d){return d.date;})
-                    ])
-                    .range([padding,w]);
-                
-                yScale = d3.scaleLinear()
-                    .domain([
-                        d3.min(dataset, function(d){if (d.average>=0) return d.average;}) - 10,
-                        d3.max(dataset, function(d){return d.average;})
-                    ])
-                    .range([h - padding,0]);
-
-                //Create axes 
-                xAxis = d3.axisBottom()
-                    .scale(xScale)
-                    .ticks(10)
-                    .tickFormat(formatTime);
-
-                yAxis = d3.axisLeft()
-                    .scale(yScale)
-                    .ticks(10);
-                
-                //Define line generator
-                var area = d3.area()
-                    .defined(function(d) {return d.average>=0;})
-                    .x(function(d) {return xScale(d.date); })
-                    .y0(function(d) {return yScale.range()[0];})
-                    .y1(function(d) {return yScale(d.average); });
-
-                var dangerArea = d3.area()
-                    .defined(function(d) {return d.average >= 350;})
-                    .x(function(d) {return xScale(d.date);})
-                    .y0(function(d) {return yScale(350);})
-                    .y1(function(d) {return yScale(d.average); });
-                
-                //Create SVG element
-                var svg = d3.select("#d3js-example-content")
-                    .append("svg")
-                    .attr("width", w)
-                    .attr("height", h);
-                    
-                //Create 350 ppm line --- creates line from point x1,y1 to x2,y2
-                svg.append("line") 
-                    .attr("class", "line safeLevel") 
-                    .attr("x1", padding) 
-                    .attr("x2", w) 
-                    .attr("y1", yScale(350))
-                    .attr("y2", yScale(350));
-
-                svg.append("text")
-                    .attr("class", "label")
-                    .attr("x", padding + 20)
-                    .attr("y", yScale(350)-7)
-                    .text("350 ppm 'safe' level"); 
-                      
-                svg.append("path")
-                    .datum(dataset)
-                    .attr("class", "area")
-                    .attr("d", area); // uses line generator function defined above
-                
-                svg.append("path")
-                    .datum(dataset)
-                    .attr("class", "area danger")
-                    .attr("d", dangerArea)
-
-                //Create axes
-                svg.append("g")
-                    .attr("class", "axis")
-                    .attr("transform", "translate(0," + (h-padding) + ")")
-                    .call(xAxis);
-
-                svg.append("g")
-                    .attr("class", "axis")
-                    .attr("transform", "translate(" + padding + ",0)")
-                    .call(yAxis);
-            });
-		</script>
-<p>... did it work?</p>	
-</body>
-</html>
-
-      
-    </div>
-
-    
-      
-
-    
-
-    <footer class="article-footer">
-      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3m15b740000t9rw60bm8c1p" class="article-share-link">
-        <i class="fa fa-share"></i> Share
-      </a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/D3-js/" rel="tag">D3.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Viz/" rel="tag">Data Viz</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Success/" rel="tag">Success!</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Test/" rel="tag">Test</a></li></ul>
-
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
 
   <header class="article-header">
@@ -326,7 +126,7 @@
     
 
     <footer class="article-footer">
-      <a data-url="167.71.247.127/2019/11/27/hello-world/" data-id="ck3m15b7e0001t9rwet1g6bqv" class="article-share-link">
+      <a data-url="167.71.247.127/2019/11/27/hello-world/" data-id="ck3m178es0000vsrwfaildw7r" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -355,34 +155,17 @@
 
 
   
-  <div class="sidebar-module">
-    <h4>Categories</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/categories/Hexo/">Hexo</a><span class="sidebar-module-list-count">1</span></li></ul>
-  </div>
-
 
 
   
-  <div class="sidebar-module">
-    <h4>Tags</h4>
-    <ul class="sidebar-module-list" itemprop="keywords"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/D3-js/" rel="tag">D3.js</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Data-Viz/" rel="tag">Data Viz</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Success/" rel="tag">Success!</a><span class="sidebar-module-list-count">1</span></li><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/tags/Test/" rel="tag">Test</a><span class="sidebar-module-list-count">1</span></li></ul>
-  </div>
-
 
 
   
-  <div class="sidebar-module">
-    <h4>Tag Cloud</h4>
-    <p class="tagcloud">
-      <a href="/tags/D3-js/" style="font-size: 10px;">D3.js</a> <a href="/tags/Data-Viz/" style="font-size: 10px;">Data Viz</a> <a href="/tags/Success/" style="font-size: 10px;">Success!</a> <a href="/tags/Test/" style="font-size: 10px;">Test</a>
-    </p>
-  </div>
-
 
   
   <div class="sidebar-module">
     <h4>Archives</h4>
-    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/11/">November 2019</a><span class="sidebar-module-list-count">2</span></li></ul>
+    <ul class="sidebar-module-list"><li class="sidebar-module-list-item"><a class="sidebar-module-list-link" href="/archives/2019/11/">November 2019</a><span class="sidebar-module-list-count">1</span></li></ul>
   </div>
 
 
@@ -391,10 +174,6 @@
   <div class="sidebar-module">
     <h4>Recents</h4>
     <ul class="sidebar-module-list">
-      
-        <li>
-          <a href="/2019/11/28/D3-js-Test-Post-1/">D3.js Test Post</a>
-        </li>
       
         <li>
           <a href="/2019/11/27/hello-world/">Hello World</a>
