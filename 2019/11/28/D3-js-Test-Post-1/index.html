@@ -5,15 +5,15 @@
   
   <title>D3.js Test Post | MapChange</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Testing this feature.   	   	 		 		  			.area { 				fill: teal; 				stroke: none; 			}  			.line { 				fill: none; 				stroke: teal; 				stroke-width: 0.5; 			}  			.safeLevel { 				stroke: red;">
+  <meta name="description" content=".line { 		fill: none; 		stroke: teal; 		stroke-width: 0.5; 	}  	.area { 		fill: teal; 		stroke: none;   	}  	.safeLevel { 		stroke: red; 		stroke-dasharray: 2, 3; 	} 	 	.danger { 		fill: red;">
 <meta name="keywords" content="Test,D3.js,Data Viz,Success!">
 <meta property="og:type" content="article">
 <meta property="og:title" content="D3.js Test Post">
 <meta property="og:url" content="167.71.247.127&#x2F;2019&#x2F;11&#x2F;28&#x2F;D3-js-Test-Post-1&#x2F;">
 <meta property="og:site_name" content="MapChange">
-<meta property="og:description" content="Testing this feature.   	   	 		 		  			.area { 				fill: teal; 				stroke: none; 			}  			.line { 				fill: none; 				stroke: teal; 				stroke-width: 0.5; 			}  			.safeLevel { 				stroke: red;">
+<meta property="og:description" content=".line { 		fill: none; 		stroke: teal; 		stroke-width: 0.5; 	}  	.area { 		fill: teal; 		stroke: none;   	}  	.safeLevel { 		stroke: red; 		stroke-dasharray: 2, 3; 	} 	 	.danger { 		fill: red;">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-30T19:39:20.807Z">
+<meta property="og:updated_time" content="2019-11-30T19:44:26.497Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="MapChange" type="application/atom+xml">
@@ -109,161 +109,92 @@
 
     <div class="article-entry" itemprop="articleBody">
       
-        
-Testing this feature. 
-<div id="d3container"></div>
+        <html lang="en">
+<head>
+	<script src="https://d3js.org/d3.v4.min.js"></script> 
+	<style type="text/css">
+
+	.line {
+		fill: none;
+		stroke: teal;
+		stroke-width: 0.5;
+	}
+
+	.area {
+		fill: teal;
+		stroke: none;  
+	}
+
+	.safeLevel {
+		stroke: red;
+		stroke-dasharray: 2, 3;
+	}
 	
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
-		<style type="text/css">
+	.danger {
+		fill: red;
+	}
 
-			.area {
-				fill: teal;
-				stroke: none;
-			}
-
-			.line {
-				fill: none;
-				stroke: teal;
-				stroke-width: 0.5;
-			}
-
-			.safeLevel {
-				stroke: red;
-				stroke-dasharray: 2, 3;
-			}
-
-			.danger {
-				fill: red;
-			}
-
-			.dangerLabel {
-				font-family: Helvetica, sans-serif;
-				font-size: 12px;
-				fill: red;
-			}
-
-		</style>
-	</head>
-
-		<script type="text/javascript">
-
+	.label {
+		fill: red; 
+		font-family: Helvetica, sans-serif;
+		font-size: 12px;
+	}
+	</style>
+</head>
+<body>
+<p>Testing this feature. </p>
+	<div id="d3js-example-content"></div>  
+		<script>
 			//Width and height
-			var w = 800;
-			var h = 300;
-			var padding = 40;
-			
-			var dataset, xScale, yScale, xAxis, yAxis, area, dangerArea;  //Empty, for now
-
-			//For converting Dates to strings
-			var formatTime = d3.timeFormat("%Y");
-
-			//Function for converting CSV values from strings to Dates and numbers
-			var rowConverter = function(d) {
-				return {
-					date: new Date(+d.year, (+d.month - 1)),  //Make a new Date object for each year + month
-					average: parseFloat(d.average)  //Convert from string to float
-				};
-			}
-
-			//Load in data
-			d3.csv("../chartdata/mauna_loa_co2_monthly_averages.csv", rowConverter, function(data) {
-
-				var dataset = data;
-
-				//Print data to console as table, for verification
-				//console.table(dataset, ["date", "average"]);
-
-				//Create scale functions
-				xScale = d3.scaleTime()
-							   .domain([
-									d3.min(dataset, function(d) { return d.date; }),
-									d3.max(dataset, function(d) { return d.date; })
-								])
-							   .range([padding, w]);
-
-				yScale = d3.scaleLinear()
-								.domain([
-									d3.min(dataset, function(d) { if (d.average >= 0) return d.average; }) - 10,
-									d3.max(dataset, function(d) { return d.average; })
-								])
-								.range([h - padding, 0]);
-
-				//Define axes
-				xAxis = d3.axisBottom()
-						   .scale(xScale)
-						   .ticks(10)
-						   .tickFormat(formatTime);
-
-				//Define Y axis
-				yAxis = d3.axisLeft()
-						   .scale(yScale)
-						   .ticks(10);
-
-				//Define area generators
-				area = d3.area()
-							.defined(function(d) { return d.average >= 0; })
-							.x(function(d) { return xScale(d.date); })
-							.y0(function() { return yScale.range()[0]; })
-							.y1(function(d) { return yScale(d.average); });
-
-				dangerArea = d3.area()
-							.defined(function(d) { return d.average >= 350; })
-							.x(function(d) { return xScale(d.date); })
-							.y0(function() { return yScale(350); })
-							.y1(function(d) { return yScale(d.average); });
-
-				//Create SVG element
-				var svg = d3.select("#d3container")
-							.append("svg")
-							.attr("width", w)
-							.attr("height", h);
-
-				//Create areas
-				svg.append("path")
-					.datum(dataset)
-					.attr("class", "area")
-					.attr("d", area);
-
-				svg.append("path")
-					.datum(dataset)
-					.attr("class", "area danger")
-					.attr("d", dangerArea);
-
-				//Create axes
-				svg.append("g")
-					.attr("class", "axis")
-					.attr("transform", "translate(0," + (h - padding) + ")")
-					.call(xAxis);
-
-				svg.append("g")
-					.attr("class", "axis")
-					.attr("transform", "translate(" + padding + ",0)")
-					.call(yAxis);
-
-				//Draw 350 ppm line
-				svg.append("line")
-					.attr("class", "line safeLevel")
-					.attr("x1", padding)
-					.attr("x2", w)
-					.attr("y1", yScale(350))
-					.attr("y2", yScale(350));
-
-				//Label 350 ppm line
-				svg.append("text")
-					.attr("class", "dangerLabel")
-					.attr("x", padding + 20)
-					.attr("y", yScale(350) - 7)
-					.text("350 ppm “safe” level");
-
-
-			});
-			
+			var w = 500;
+			var h = 100;
+			var barPadding = 1;
+			var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+						11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+			//Create SVG element
+			let svg = d3.select("#d3js-example-content")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+			svg.selectAll("rect")
+			   .data(dataset)
+			   .enter()
+			   .append("rect")
+			   .attr("x", function(d, i) {
+			   		return i * (w / dataset.length);
+			   })
+			   .attr("y", function(d) {
+			   		return h - (d * 4);
+			   })
+			   .attr("width", w / dataset.length - barPadding)
+			   .attr("height", function(d) {
+			   		return d * 4;
+			   })
+			   .attr("fill", function(d) {
+					return "rgb(0, 0, " + Math.round(d * 10) + ")";
+			   });
+			svg.selectAll("text")
+			   .data(dataset)
+			   .enter()
+			   .append("text")
+			   .text(function(d) {
+			   		return d;
+			   })
+			   .attr("text-anchor", "middle")
+			   .attr("x", function(d, i) {
+			   		return i * (w / dataset.length) + (w / dataset.length - barPadding) / 2;
+			   })
+			   .attr("y", function(d) {
+			   		return h - (d * 4) + 14;
+			   })
+			   .attr("font-family", "sans-serif")
+		   .attr("font-size", "11px")
+			   .attr("fill", "white");
 		</script>
-	</body>
+Did it work?
+</body>
 </html>
+
       
     </div>
 
@@ -273,7 +204,7 @@ Testing this feature.
     
 
     <footer class="article-footer">
-      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3lzc11c0000chrwf8sw6ycl" class="article-share-link">
+      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3lzil7b0000gkrwc5y7652i" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
