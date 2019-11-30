@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="MapChange">
 <meta property="og:description" content=".line { 		fill: none; 		stroke: teal; 		stroke-width: 0.5; 	}  	.area { 		fill: teal; 		stroke: none;   	}  	.safeLevel { 		stroke: red; 		stroke-dasharray: 2, 3; 	} 	 	.danger { 		fill: red;">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-30T19:48:47.578Z">
+<meta property="og:updated_time" content="2019-11-30T19:51:00.054Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="MapChange" type="application/atom+xml">
@@ -165,7 +165,7 @@
             }
 
 			//Load in data --- why do we never leave the d3.csv command to create our visualization?
-            d3.csv("source/_posts/co2_mm_mlo.csv", rowConverter, function(data){
+            d3.csv("chartdata/co2_mm_mlo.csv", rowConverter, function(data){
                 var dataset = data; 
                 //Print data to console as table, for verification 
                 console.table(dataset, ["date", "average"]);
@@ -250,7 +250,7 @@
                     .call(yAxis);
             });
 		</script>
-Did it work?
+<p>... did it work?</p>	
 </body>
 </html>
 
@@ -263,7 +263,7 @@ Did it work?
     
 
     <footer class="article-footer">
-      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3lzo7bw0000qarwar8efuvh" class="article-share-link">
+      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3lzrdg60000vdrw1zc450a8" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
