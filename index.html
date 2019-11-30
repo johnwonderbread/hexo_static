@@ -144,50 +144,109 @@
 	<div id="d3js-example-content"></div>  
 		<script>
 			//Width and height
-			var w = 500;
-			var h = 100;
-			var barPadding = 1;
-			var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-						11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-			//Create SVG element
-			let svg = d3.select("#d3js-example-content")
-						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
-			svg.selectAll("rect")
-			   .data(dataset)
-			   .enter()
-			   .append("rect")
-			   .attr("x", function(d, i) {
-			   		return i * (w / dataset.length);
-			   })
-			   .attr("y", function(d) {
-			   		return h - (d * 4);
-			   })
-			   .attr("width", w / dataset.length - barPadding)
-			   .attr("height", function(d) {
-			   		return d * 4;
-			   })
-			   .attr("fill", function(d) {
-					return "rgb(0, 0, " + Math.round(d * 10) + ")";
-			   });
-			svg.selectAll("text")
-			   .data(dataset)
-			   .enter()
-			   .append("text")
-			   .text(function(d) {
-			   		return d;
-			   })
-			   .attr("text-anchor", "middle")
-			   .attr("x", function(d, i) {
-			   		return i * (w / dataset.length) + (w / dataset.length - barPadding) / 2;
-			   })
-			   .attr("y", function(d) {
-			   		return h - (d * 4) + 14;
-			   })
-			   .attr("font-family", "sans-serif")
-		   .attr("font-size", "11px")
-			   .attr("fill", "white");
+			var w = 800;
+			var h = 300;
+			var padding = 40;
+			
+            var dataset, xScale, yScale, xAxis, yAxis, line;  //Empty, for now
+            
+            var formatTime = d3.timeFormat("%Y%");
+
+			//Function for converting CSV values from strings to Dates and numbers
+            var rowConverter = function(d) { 
+                return{
+                    //Make a new date object for each year + month 
+                    date: new Date(d.year,(+d.month -1)),
+                    //Convert from string to float
+                    average: parseFloat(d.average)
+                };
+            }
+
+			//Load in data --- why do we never leave the d3.csv command to create our visualization?
+            d3.csv("../chartdata/co2_mm_mlo.csv", rowConverter, function(data){
+                var dataset = data; 
+                //Print data to console as table, for verification 
+                console.table(dataset, ["date", "average"]);
+                
+                //Create scale functions
+                xScale = d3.scaleTime()
+                    .domain([
+                        d3.min(dataset, function(d){return d.date;}),
+                        d3.max(dataset, function(d){return d.date;})
+                    ])
+                    .range([padding,w]);
+                
+                yScale = d3.scaleLinear()
+                    .domain([
+                        d3.min(dataset, function(d){if (d.average>=0) return d.average;}) - 10,
+                        d3.max(dataset, function(d){return d.average;})
+                    ])
+                    .range([h - padding,0]);
+
+                //Create axes 
+                xAxis = d3.axisBottom()
+                    .scale(xScale)
+                    .ticks(10)
+                    .tickFormat(formatTime);
+
+                yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .ticks(10);
+                
+                //Define line generator
+                var area = d3.area()
+                    .defined(function(d) {return d.average>=0;})
+                    .x(function(d) {return xScale(d.date); })
+                    .y0(function(d) {return yScale.range()[0];})
+                    .y1(function(d) {return yScale(d.average); });
+
+                var dangerArea = d3.area()
+                    .defined(function(d) {return d.average >= 350;})
+                    .x(function(d) {return xScale(d.date);})
+                    .y0(function(d) {return yScale(350);})
+                    .y1(function(d) {return yScale(d.average); });
+                
+                //Create SVG element
+                var svg = d3.select("#d3js-example-content")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
+                    
+                //Create 350 ppm line --- creates line from point x1,y1 to x2,y2
+                svg.append("line") 
+                    .attr("class", "line safeLevel") 
+                    .attr("x1", padding) 
+                    .attr("x2", w) 
+                    .attr("y1", yScale(350))
+                    .attr("y2", yScale(350));
+
+                svg.append("text")
+                    .attr("class", "label")
+                    .attr("x", padding + 20)
+                    .attr("y", yScale(350)-7)
+                    .text("350 ppm 'safe' level"); 
+                      
+                svg.append("path")
+                    .datum(dataset)
+                    .attr("class", "area")
+                    .attr("d", area); // uses line generator function defined above
+                
+                svg.append("path")
+                    .datum(dataset)
+                    .attr("class", "area danger")
+                    .attr("d", dangerArea)
+
+                //Create axes
+                svg.append("g")
+                    .attr("class", "axis")
+                    .attr("transform", "translate(0," + (h-padding) + ")")
+                    .call(xAxis);
+
+                svg.append("g")
+                    .attr("class", "axis")
+                    .attr("transform", "translate(" + padding + ",0)")
+                    .call(yAxis);
+            });
 		</script>
 Did it work?
 </body>
@@ -202,7 +261,7 @@ Did it work?
     
 
     <footer class="article-footer">
-      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3lzil7b0000gkrwc5y7652i" class="article-share-link">
+      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3lzk3ym0000ixrw2vnug166" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
@@ -267,7 +326,7 @@ Did it work?
     
 
     <footer class="article-footer">
-      <a data-url="167.71.247.127/2019/11/27/hello-world/" data-id="ck3lzil7k0001gkrwd5578r7h" class="article-share-link">
+      <a data-url="167.71.247.127/2019/11/27/hello-world/" data-id="ck3lzk3yw0001ixrw28ab481p" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
