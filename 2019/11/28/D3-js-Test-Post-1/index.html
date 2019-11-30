@@ -5,15 +5,15 @@
   
   <title>D3.js Test Post | MapChange</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Testing this feature.  	   	 		 		  			.area { 				fill: teal; 				stroke: none; 			}  			.line { 				fill: none; 				stroke: teal; 				stroke-width: 0.5; 			}  			.safeLevel { 				stroke: red; 				s">
+  <meta name="description" content="Testing this feature.   	   	 		 		  			.area { 				fill: teal; 				stroke: none; 			}  			.line { 				fill: none; 				stroke: teal; 				stroke-width: 0.5; 			}  			.safeLevel { 				stroke: red;">
 <meta name="keywords" content="Test,D3.js,Data Viz,Success!">
 <meta property="og:type" content="article">
 <meta property="og:title" content="D3.js Test Post">
 <meta property="og:url" content="167.71.247.127&#x2F;2019&#x2F;11&#x2F;28&#x2F;D3-js-Test-Post-1&#x2F;">
 <meta property="og:site_name" content="MapChange">
-<meta property="og:description" content="Testing this feature.  	   	 		 		  			.area { 				fill: teal; 				stroke: none; 			}  			.line { 				fill: none; 				stroke: teal; 				stroke-width: 0.5; 			}  			.safeLevel { 				stroke: red; 				s">
+<meta property="og:description" content="Testing this feature.   	   	 		 		  			.area { 				fill: teal; 				stroke: none; 			}  			.line { 				fill: none; 				stroke: teal; 				stroke-width: 0.5; 			}  			.safeLevel { 				stroke: red;">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-30T19:37:56.147Z">
+<meta property="og:updated_time" content="2019-11-30T19:39:20.807Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="MapChange" type="application/atom+xml">
@@ -111,6 +111,7 @@
       
         
 Testing this feature. 
+<div id="d3container"></div>
 	
 <!DOCTYPE html>
 <html lang="en">
@@ -146,7 +147,7 @@ Testing this feature.
 
 		</style>
 	</head>
-	<body>
+
 		<script type="text/javascript">
 
 			//Width and height
@@ -215,7 +216,7 @@ Testing this feature.
 							.y1(function(d) { return yScale(d.average); });
 
 				//Create SVG element
-				var svg = d3.select("body")
+				var svg = d3.select("#d3container")
 							.append("svg")
 							.attr("width", w)
 							.attr("height", h);
@@ -272,7 +273,7 @@ Testing this feature.
     
 
     <footer class="article-footer">
-      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3lzajna00009grw2bom96ut" class="article-share-link">
+      <a data-url="167.71.247.127/2019/11/28/D3-js-Test-Post-1/" data-id="ck3lzc11c0000chrwf8sw6ycl" class="article-share-link">
         <i class="fa fa-share"></i> Share
       </a>
       
